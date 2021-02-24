@@ -1,0 +1,194 @@
+\title{CS 383 - Machine Learning}
+\author{
+        Assignment 3 - Linear Regression
+}
+\date{}
+\documentclass[12pt]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+
+\begin{document}
+\maketitle
+
+
+\section*{Introduction}
+In this assignment you will explore gradient descent and perform closed-form linear regression on a dataset.\\
+
+\noindent
+As with all homeworks, you cannot use any functions that are against the ``spirit" of the assignment.  For this assignment that would mean an linear regression functions.   You \emph{may} use statistical and linear algebra functions to do things like:
+\begin{itemize}
+\item mean
+\item std
+\item cov
+\item inverse
+\item matrix multiplication
+\item transpose
+\item etc...
+\end{itemize}
+
+
+\section*{Grading}
+Although all assignments will be weighed equally in computing your homework grade, below is the grading rubric we will use for this assignment:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Part 1 (Theory) & 20pts\\
+Part 2 (Gradient Descent) & 30pts\\
+Part 3 (Closed-form LR) & 50pts\\
+\hline
+\textbf{TOTAL} & 100 \\
+\hline
+\end{tabular}
+\caption{Grading Rubric}
+\end{center}
+\end{table}
+
+\newpage
+\section*{Datasets}
+\paragraph{Medical Cost Personal Dataset}
+This dataset consists of data for 1338 people in a CSV file.  This data for each person includes:
+\begin{enumerate}
+\item age
+\item sex
+\item bmi
+\item children
+\item smoker
+\item region
+\item charges
+\end{enumerate}
+
+\noindent
+For more information, see https://www.kaggle.com/mirichoi0218/insurance
+
+\newpage
+\section{Theory}
+\begin{enumerate}
+\item  Consider the following supervised \emph{training} dataset:\\
+\begin{center}
+$X=
+ \begin{bmatrix}
+	-2\\
+	-5\\	
+	-3\\
+	0\\
+	-8\\
+	-2\\
+	1\\
+	5\\
+	-1\\
+	6\\
+\end{bmatrix},
+Y=
+ \begin{bmatrix}
+	1\\
+	-4\\	
+	1\\
+	3\\
+	11\\
+	5\\
+	0\\
+	-1\\
+	-3\\
+	1\\
+\end{bmatrix}
+$
+\end{center}
+\begin{enumerate}
+\item Compute the coefficients for closed-form linear regression using least squares estimate (LSE).  Show your work and remember to add a bias feature.  Since we have only one feature, there is no need to zscore it (6pts).
+\item Using your learned model in the previous part, what are your predictions, $Y$, for the training data (2pts)?
+\item What is the RMSE for this training set based on the model you learned in the previous part (2pts)?
+\end{enumerate} 
+
+	
+\item For the function $J=(x_1 w_1 -5x_2 w_2-2)^2$, where $w=[w_1, w_2]$ are our weights to learn:
+\begin{enumerate}
+\item What are the partial gradients, $\frac{\partial J}{\partial w_1}$ and $\frac{\partial J}{\partial w_2}$?  Show work to support your answer (6pts).
+\item That are the value of the partial gradients given current values of $w=[0, 0], x=[1, 1]$ (4pts)?
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+\section{Gradient Descent}\label{gd}
+In this section we want to visualize the gradient descent process on the function $$J=(x_1 w_1 -5x_2 w_2-2)^2$$
+\noindent
+You should have already derived (pun?) the gradient of this function in the theory section.  To bootstrap the process, initialize $w_1=0$ and $w_2=0$.  In addition, we'll assume only a single observation: $x=[1, 1]$.\\  
+
+\noindent
+Write a program to perform gradient descent on this function, terminating when the change $J$ from one epoch to another is less that $2^{-32}$.  In addition, we'll use a learning rate of $\eta=0.01$.  You'll want to keep track of the values of $J, w_1, $ and $w_2$ during learning in order to generate the plots mentioned below:
+
+\paragraph{In your report you will need}
+\begin{enumerate}
+\item Plot epoch vs $J$ as a line graph.
+\item Create a 3D line plot of $w_1$ vs $w_2$ vs $J$.
+\item Report your final values of $w_1, w_2$ and $J$, in addition to the number of epochs needed to reach your termination criteria.
+\end{enumerate}
+
+
+\newpage
+\section{Closed Form Linear Regression}\label{linreg}
+In this section you'll create simple linear regression models using the dataset mentioned in the Datasets section.  Use the first six columns as the features (age, sex, bmi, children, smoker, region), and the final column as the value to predict (charges).  Note that the features contain a mixture of continuous valued information, binary information, and categorical information.\\
+
+\noindent
+First randomize (shuffle) the rows of your data and then split it into two subsets: 2/3 for training, 1/3 for validation.
+
+\noindent
+Now let's train \textbf{four} models using \emph{closed-form linear regression}.  As you'll see below we will be exploring the effects of pre-processing and incorporation of bias features.
+
+\begin{enumerate}
+\item The first system will change categorical features to enumerated ones (but will \textbf{NOT} convert the \emph{region} feature into a set of binary features.  In addition it will \textbf{NOT} have a bias feature.
+\item The second will do the same pre-processing as above, but will now include a bias feature.
+\item The third \textbf{WILL} convert the \emph{region} feature into a set of four binary features, but will \textbf{NOT} have a bias feature.
+\item And finally we'll train a system using the pre-processing in the previous part, but \textbf{WILL} include a bias term.
+\end{enumerate}
+
+
+\paragraph{Implementation Details}
+\begin{enumerate}
+\item So that you have reproducible results, we suggest that seed the random number generate prior to using it.  In particular, you might want to seed it with a value of zero so that you can compare your numeric results with others.
+\item The closed-form of linear regression doesn't benefit from zscorring your data, so it's up to you whether you want to or not.
+\item \textbf{IMPORTANT} Converting enumerated features to a set of binary features introduces \emph{sparsity} to our matrix $X$.  Since the closed-form solution requires computing the inverse of $X^TX$, this sparsity, combined with adding a feature of all ones (the bias feature), can cause issues in finding the inverse of $X^TX$.  To overcome this you can try:
+\begin{itemize}
+\item Using the \emph{pseudo-inverse} instead of the regular inverse.  This can be more stable and accurate.
+\item Adding some "noise" (i.e. very small values) to the binary features you made out of the enumerated features.
+\end{itemize} 
+\end{enumerate}
+
+
+\paragraph{In your report you will need:}
+\begin{enumerate}
+\item The root mean squared errors for the training \textbf{and} validation sets for each of your four models.
+\end{enumerate}
+
+\newpage
+\section*{Submission}
+For your submission, upload to Blackboard a single zip file with no spaces in the file or directory names and contains:
+
+\begin{enumerate}
+\item PDF Writeup
+\item Source Code
+\item readme.txt file
+\end{enumerate}
+
+\noindent
+The readme.txt file should contain information on how to run your code to reproduce results for each part of the assignment.\\
+
+\noindent
+The PDF document should contain the following:
+
+\begin{enumerate}
+\item Part 1: Your solutions to the theory questions.
+\item Part 2: 
+	\begin{enumerate}
+	\item Your plot of epoch vs $J$.
+	\item Your 3D plot of $w_1$ vs $w_2$, vs $J$.
+	\item The final learned values of $w_1$, $w_2$, and $J$, and the number of epochs required to get there.
+	\end{enumerate}
+\item Part 3: The RMSE for the training and validation sets for your four models.
+\end{enumerate}
+\end{document}
+
