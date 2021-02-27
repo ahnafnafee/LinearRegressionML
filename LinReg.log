@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.1)  26 FEB 2021 22:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.1)  27 FEB 2021 03:42
 entering extended mode
 **./LinReg.tex
 (LinReg.tex
@@ -404,13 +404,33 @@ Underfull \hbox (badness 10000) in paragraph at lines 361--362
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--376
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 378--380
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--384
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 386--388
+
+ []
+
 [4] (LinReg.aux) ) 
 Here is how much of TeX's memory you used:
- 4909 strings out of 479618
- 66410 string characters out of 2871127
+ 4913 strings out of 479618
+ 66448 string characters out of 2871127
  585461 words of memory out of 3000000
- 22051 multiletter control sequences out of 15000+200000
- 409753 words of font info for 50 fonts, out of 3000000 for 9000
+ 22053 multiletter control sequences out of 15000+200000
+ 410374 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,21n,74p,225b,1456s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Desktop/Program Files/MiKTeX/fonts/type1/public/amsfonts/
@@ -424,7 +444,7 @@ gram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Desktop/Program F
 iles/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Desktop/Program Files
 /MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Desktop/Program Files/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on LinReg.pdf (4 pages, 120805 bytes).
+Output written on LinReg.pdf (4 pages, 123223 bytes).
 PDF statistics:
  59 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
